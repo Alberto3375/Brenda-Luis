@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Brenda & Luis — Nuestra Boda / Our Wedding</title>
+    <meta name="description" content="Acompáñanos a celebrar nuestra boda el 28 de Agosto de 2027 en Sacramento, CA.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Librería QR estable -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+</head>
+
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="preloader-mono">
+            <span>B</span>
+            <em>&</em>
+            <span>L</span>
+        </div>
+        <div class="preloader-line"></div>
+        <p data-i18n="preloader">Cargando invitación</p>
+    </div>
+
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+        <div class="navbar-inner">
+
+            <a href="#inicio" class="logo">
+                <span class="logo-mono">B&nbsp;<em>&</em>&nbsp;L</span>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#historia" data-i18n="navStory">Historia</a>
+                <a href="#ceremonia" data-i18n="navEvent">Ceremonia</a>
+                <a href="#itinerario" data-i18n="navSchedule">Itinerario</a>
+                <a href="#detalles" data-i18n="navDetails">Detalles</a>
+                <a href="#rsvp" data-i18n="navRsvp">RSVP</a>
+            </nav>
+
+            <div class="navbar-actions">
+
+                <button class="lang-button" id="langButton" aria-label="Cambiar idioma">
+                    <span class="lang-current">ES</span>
+                    <span class="lang-arrow">▾</span>
+                </button>
+
+                <button class="music-button" id="musicButton" aria-label="Reproducir música">
+                    <span class="music-icon">♫</span>
+                </button>
+
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+
+        <div class="hero-frame">
+            <span class="frame-corner tl"></span>
+            <span class="frame-corner tr"></span>
+            <span class="frame-corner bl"></span>
+            <span class="frame-corner br"></span>
+        </div>
+
+        <div class="hero-content">
+
+            <p class="hero-eyebrow" data-i18n="heroEyebrow">Estás invitado a celebrar</p>
+
+            <div class="hero-ornament">
+                <span></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2 L13.2 10.8 L22 12 L13.2 13.2 L12 22 L10.8 13.2 L2 12 L10.8 10.8 Z"
+                          fill="currentColor"/>
+                </svg>
+                <span></span>
+            </div>
+
+            <h1 class="hero-names">
+                Brenda
+                <em>&</em>
+                Luis
+            </h1>
+
+            <p class="hero-subtitle" data-i18n="heroSubtitle">Nuestra Boda</p>
+
+            <div class="hero-divider">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+
+            <p class="hero-date">
+                <span data-i18n="heroDay">Sábado</span>
+                <strong>28 · 08 · 2027</strong>
+                <span data-i18n="heroCity">Sacramento, California</span>
+            </p>
+
+            <a href="#historia" class="hero-scroll">
+                <span data-i18n="heroScroll">Descubrir</span>
+                <svg viewBox="0 0 12 20" aria-hidden="true">
+                    <path d="M6 0 V18 M1 13 L6 18 L11 13"
+                          fill="none" stroke="currentColor"
+                          stroke-width="1"/>
+                </svg>
+            </a>
+
+        </div>
+
+        <div class="hero-botanical hero-botanical-top" aria-hidden="true">
+            <svg viewBox="0 0 200 300">
+                <g fill="none" stroke="currentColor" stroke-width="0.8">
+                    <path d="M100 300 C 100 200, 60 160, 40 100"/>
+                    <path d="M100 300 C 100 200, 140 160, 160 100"/>
+                    <path d="M100 300 C 100 220, 100 180, 100 120"/>
+                    <ellipse cx="55" cy="150" rx="18" ry="6" transform="rotate(-35 55 150)"/>
+                    <ellipse cx="145" cy="150" rx="18" ry="6" transform="rotate(35 145 150)"/>
+                    <ellipse cx="70" cy="220" rx="22" ry="7" transform="rotate(-30 70 220)"/>
+                    <ellipse cx="130" cy="220" rx="22" ry="7" transform="rotate(30 130 220)"/>
+                    <circle cx="100" cy="110" r="4"/>
+                </g>
+            </svg>
+        </div>
+
+    </section>
+
+
+    <!-- COUNTDOWN -->
+    <section class="countdown" id="countdown">
+
+        <div class="section-head">
+            <span class="section-kicker" data-i18n="countKicker">Cuenta regresiva</span>
+            <h2 class="section-title" data-i18n="countTitle">Faltan</h2>
+            <div class="section-rule"></div>
+        </div>
+
+        <div class="countdown-grid">
+            <div class="count-cell">
+                <strong id="days">00</strong>
+                <span data-i18n="countDays">Días</span>
+            </div>
+            <div class="count-cell">
+                <strong id="hours">00</strong>
+                <span data-i18n="countHours">Horas</span>
+            </div>
+            <div class="count-cell">
+                <strong id="minutes">00</strong>
+                <span data-i18n="countMinutes">Minutos</span>
+            </div>
+            <div class="count-cell">
+                <strong id="seconds">00</strong>
+                <span data-i18n="countSeconds">Segundos</span>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- HISTORIA -->
+    <section class="story" id="historia">
+
+        <div class="story-inner">
+
+            <div class="story-ornament">
+                <svg viewBox="0 0 120 120" aria-hidden="true">
+                    <g fill="none" stroke="currentColor" stroke-width="0.8">
+                        <circle cx="60" cy="60" r="55"/>
+                        <circle cx="60" cy="60" r="45"/>
+                        <path d="M60 15 C 75 35, 75 45, 60 60 C 45 45, 45 35, 60 15 Z"/>
+                        <path d="M60 105 C 75 85, 75 75, 60 60 C 45 75, 45 85, 60 105 Z"/>
+                        <path d="M15 60 C 35 45, 45 45, 60 60 C 45 75, 35 75, 15 60 Z"/>
+                        <path d="M105 60 C 85 45, 75 45, 60 60 C 75 75, 85 75, 105 60 Z"/>
+                    </g>
+                </svg>
+            </div>
+
+            <p class="section-kicker" data-i18n="storyKicker">Nuestra historia</p>
+
+            <h2 class="story-title">
+                <span data-i18n="storyTitle1">Un encuentro que</span>
+                <em data-i18n="storyTitle2">cambió todo</em>
+            </h2>
+
+            <div class="section-rule"></div>
+
+            <p class="story-text" data-i18n="storyText1">
+                Hay historias que comienzan sin avisar. Una mirada, una conversación
+                y dos caminos que inesperadamente decidieron caminar juntos.
+            </p>
+
+            <p class="story-text" data-i18n="storyText2">
+                Después de tantos momentos compartidos, aventuras, sueños y recuerdos,
+                queremos celebrar el comienzo de nuestro siguiente capítulo con las
+                personas que más queremos.
+            </p>
+
+            <p class="story-signature">Brenda &amp; Luis</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CEREMONIA Y RECEPCIÓN -->
+    <section class="events" id="ceremonia">
+
+        <div class="section-head">
+            <span class="section-kicker" data-i18n="eventsKicker">Acompáñanos</span>
+            <h2 class="section-title" data-i18n="eventsTitle">El gran día</h2>
+            <div class="section-rule"></div>
+        </div>
+
+        <div class="events-grid">
+
+            <!-- CEREMONIA -->
+            <article class="event-card">
+
+                <div class="event-ornament">
+                    <svg viewBox="0 0 40 40" aria-hidden="true">
+                        <g fill="none" stroke="currentColor" stroke-width="0.8">
+                            <circle cx="20" cy="20" r="6"/>
+                            <circle cx="20" cy="20" r="14"/>
+                            <circle cx="20" cy="20" r="19"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <span class="event-num">01</span>
+                <h3 class="event-title" data-i18n="ceremonyTitle">Ceremonia</h3>
+
+                <div class="event-rule"></div>
+
+                <p class="event-time">11:30 AM</p>
+                <p class="event-date" data-i18n="ceremonyDate">Sábado 28 · Agosto · 2027</p>
+
+                <p class="event-place">
+                    <strong>Cathedral of the Blessed Sacrament</strong>
+                    1019 11th St.<br>
+                    Sacramento, CA 95814
+                </p>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=Cathedral+of+the+Blessed+Sacrament+1019+11th+St+Sacramento+CA+95814"
+                   target="_blank" rel="noopener" class="event-link">
+                    <span data-i18n="viewLocation">Ver ubicación</span>
+                    <span class="arrow">→</span>
+                </a>
+
+            </article>
+
+
+            <!-- RECEPCIÓN -->
+            <article class="event-card event-card--accent">
+
+                <div class="event-ornament">
+                    <svg viewBox="0 0 40 40" aria-hidden="true">
+                        <g fill="none" stroke="currentColor" stroke-width="0.8">
+                            <path d="M20 2 L23 17 L38 20 L23 23 L20 38 L17 23 L2 20 L17 17 Z"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <span class="event-num">02</span>
+                <h3 class="event-title" data-i18n="receptionTitle">Recepción</h3>
+
+                <div class="event-rule"></div>
+
+                <p class="event-time">4:30 PM</p>
+                <p class="event-date" data-i18n="receptionDate">Después de la ceremonia</p>
+
+                <p class="event-place">
+                    <strong>Brentwood Reception Hall</strong>
+                    7620 Balfour Rd.<br>
+                    Brentwood, CA 94513
+                </p>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=7620+Balfour+Rd+Brentwood+CA+94513"
+                   target="_blank" rel="noopener" class="event-link">
+                    <span data-i18n="viewLocation">Ver ubicación</span>
+                    <span class="arrow">→</span>
+                </a>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAPA -->
+    <section class="map-section" id="mapa">
+
+        <div class="section-head">
+            <span class="section-kicker" data-i18n="mapKicker">Cómo llegar</span>
+            <h2 class="section-title" data-i18n="mapTitle">Ubicaciones</h2>
+            <div class="section-rule"></div>
+        </div>
+
+        <div class="map-tabs">
+            <button class="map-tab is-active" data-map="ceremony" data-i18n="mapTabCeremony">
+                Ceremonia
+            </button>
+            <button class="map-tab" data-map="reception" data-i18n="mapTabReception">
+                Recepción
+            </button>
+        </div>
+
+        <div class="map-wrapper">
+
+            <iframe
+                id="mapCeremony"
+                class="map-frame is-active"
+                src="https://www.google.com/maps?q=Cathedral%20of%20the%20Blessed%20Sacrament%2C%201019%2011th%20St%2C%20Sacramento%2C%20CA%2095814&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen>
+            </iframe>
+
+            <iframe
+                id="mapReception"
+                class="map-frame"
+                src="https://www.google.com/maps?q=7620%20Balfour%20Rd%2C%20Brentwood%2C%20CA%2094513&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+        <div class="map-actions">
+            <a href="https://www.google.com/maps/search/?api=1&query=Cathedral+of+the+Blessed+Sacrament+1019+11th+St+Sacramento+CA+95814"
+               target="_blank" rel="noopener" class="map-cta" data-i18n="mapOpen">
+                Abrir en Google Maps
+            </a>
+        </div>
+
+    </section>
+
+
+    <!-- CITA -->
+    <section class="quote">
+
+        <div class="quote-inner">
+
+            <div class="quote-mark">“</div>
+
+            <p class="quote-text" data-i18n="quoteText">
+                El amor no mira con los ojos,
+                sino con el alma.
+            </p>
+
+            <p class="quote-author">— William Shakespeare</p>
+
+            <div class="quote-rule"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ITINERARIO -->
+    <section class="timeline" id="itinerario">
+
+        <div class="section-head">
+            <span class="section-kicker" data-i18n="scheduleKicker">Programa</span>
+            <h2 class="section-title" data-i18n="scheduleTitle">Itinerario del día</h2>
+            <div class="section-rule"></div>
+        </div>
+
+        <ol class="timeline-list">
+
+            <li>
+                <span class="time">11:30 AM</span>
+                <div class="marker"></div>
+                <div class="timeline-content">
+                    <h4 data-i18n="sched1Title">Ceremonia religiosa</h4>
+                    <p>Cathedral of the Blessed Sacrament</p>
+                </div>
+            </li>
+
+            <li>
+                <span class="time">1:30 PM</span>
+                <div class="marker"></div>
+                <div class="timeline-content">
+                    <h4 data-i18n="sched2Title">Sesión de fotos</h4>
+                    <p data-i18n="sched2Place">Frente a la Catedral</p>
+                </div>
+            </li>
+
+            <li>
+                <span class="time">4:30 PM</span>
+                <div class="marker"></div>
+                <div class="timeline-content">
+                    <h4 data-i18n="sched3Title">Recepción y banquete</h4>
+                    <p>7620 Balfour Rd. Brentwood, CA</p>
+                </div>
+            </li>
+
+            <li>
+                <span class="time">6:30 PM</span>
+                <div class="marker"></div>
+                <div class="timeline-content">
+                    <h4 data-i18n="sched4Title">Brindis y primer baile</h4>
+                    <p data-i18n="sched4Place">Salón principal</p>
+                </div>
+            </li>
+
+            <li>
+                <span class="time">8:00 PM</span>
+                <div class="marker"></div>
+                <div class="timeline-content">
+                    <h4 data-i18n="sched5Title">Fiesta</h4>
+                    <p data-i18n="sched5Place">¡A bailar toda la noche!</p>
+                </div>
+            </li>
+
+        </ol>
+
+    </section>
+
+
+    <!-- DETALLES -->
+    <section class="details" id="detalles">
+
+        <div class="section-head">
+            <span class="section-kicker" data-i18n="detailsKicker">Detalles</span>
+            <h2 class="section-title" data-i18n="detailsTitle">Antes de venir</h2>
+            <div class="section-rule"></div>
+        </div>
+
+        <div class="details-grid">
+
+            <div class="detail-card">
+                <div class="detail-icon">
+                    <svg viewBox="0 0 40 40" aria-hidden="true">
+                        <g fill="none" stroke="currentColor" stroke-width="0.9">
+                            <path d="M20 6 L28 14 L20 34 L12 14 Z"/>
+                            <path d="M12 14 L20 18 L28 14"/>
+                        </g>
+                    </svg>
+                </div>
+                <h4 data-i18n="detail1Title">Código de vestimenta</h4>
+                <p data-i18n="detail1Main">Formal / Elegante</p>
+                <span data-i18n="detail1Sub">Colores reservados: blanco</span>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">
+                    <svg viewBox="0 0 40 40" aria-hidden="true">
+                        <g fill="none" stroke="currentColor" stroke-width="0.9">
+                            <path d="M20 4 C 12 12, 12 24, 20 36 C 28 24, 28 12, 20 4 Z"/>
+                            <path d="M20 12 L20 30"/>
+                        </g>
+                    </svg>
+                </div>
+                <h4 data-i18n="detail2Title">Solo adultos</h4>
+                <p data-i18n="detail2Main">Evento exclusivo</p>
+                <span data-i18n="detail2Sub">Agradecemos tu comprensión</span>
+            </div>
+
+            <div class="detail-card">
+                <div class="detail-icon">
+                    <svg viewBox="0 0 40 40" aria-hidden="true">
+                        <g fill="none" stroke="currentColor" stroke-width="0.9">
+                            <rect x="10" y="14" width="20" height="16"/>
+                            <path d="M16 14 V10 a4 4 0 0 1 8 0 V14"/>
+                        </g>
+                    </svg>
+                </div>
+                <h4 data-i18n="detail3Title">Mesa de regalos</h4>
+                <p data-i18n="detail3Main">Tu presencia es nuestro mejor regalo</p>
+                <span data-i18n="detail3Sub">Lluvia de sobres</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RSVP -->
+    <section class="rsvp" id="rsvp">
+
+        <div class="rsvp-inner">
+
+            <div class="rsvp-ornament">
+                <span></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 21 C 4 15, 2 10, 6 6 C 9 3.5, 12 6, 12 8 C 12 6, 15 3.5, 18 6 C 22 10, 20 15, 12 21 Z"
+                          fill="none" stroke="currentColor" stroke-width="0.8"/>
+                </svg>
+                <span></span>
+            </div>
+
+            <p class="section-kicker" data-i18n="rsvpKicker">Confirmación</p>
+
+            <h2 class="rsvp-title" data-i18n="rsvpTitle">¿Nos acompañas?</h2>
+
+            <p class="rsvp-text" data-i18n="rsvpText">
+                Queremos compartir este día tan especial con las personas
+                que más queremos. Por favor confirma tu asistencia antes
+                del 1 de Julio de 2027.
+            </p>
+
+            <!-- FORMULARIO -->
+            <form class="rsvp-form" id="rsvpForm" novalidate>
+
+                <div class="form-field">
+                    <label for="guestName" data-i18n="formNameLabel">Nombre completo</label>
+                    <input type="text"
+                           id="guestName"
+                           name="guestName"
+                           placeholder="Ej. María López"
+                           autocomplete="name"
+                           data-i18n-placeholder="formNamePlaceholder">
+                </div>
+
+                <div class="form-field">
+                    <label for="guestCount" data-i18n="formCountLabel">Número de personas (incluyéndote)</label>
+                    <div class="guest-counter">
+                        <button type="button" class="counter-btn" data-action="dec" aria-label="Menos">−</button>
+                        <input type="number"
+                               id="guestCount"
+                               name="guestCount"
+                               value="1"
+                               min="1"
+                               max="10"
+                               readonly>
+                        <button type="button" class="counter-btn" data-action="inc" aria-label="Más">+</button>
+                    </div>
+                    <small class="form-hint" data-i18n="formHint">Máximo 10 personas por invitación.</small>
+                </div>
+
+                <div class="form-field">
+                    <label for="guestMessage" data-i18n="formMessageLabel">Mensaje para los novios (opcional)</label>
+                    <textarea id="guestMessage"
+                              name="guestMessage"
+                              rows="3"
+                              placeholder="Escríbenos unas palabras…"
+                              data-i18n-placeholder="formMessagePlaceholder"></textarea>
+                </div>
+
+                <button type="submit" class="rsvp-button" id="rsvpSubmit">
+                    <span data-i18n="formSubmit">Confirmar asistencia</span>
+                    <span class="arrow">→</span>
+                </button>
+
+            </form>
+
+            <!-- ERROR -->
+            <p class="rsvp-error" id="rsvpError" hidden></p>
+
+            <!-- TICKET -->
+            <div class="ticket" id="ticket" hidden>
+
+                <div class="ticket-head">
+                    <span class="ticket-kicker" data-i18n="ticketKicker">Invitación confirmada</span>
+                    <h3 class="ticket-title" data-i18n="ticketTitle">Pase de entrada</h3>
+                    <div class="ticket-rule"></div>
+                </div>
+
+                <div class="ticket-body">
+
+                    <div class="ticket-info">
+                        <div class="ticket-row">
+                            <span data-i18n="ticketGuest">Invitado</span>
+                            <strong id="ticketName">—</strong>
+                        </div>
+                        <div class="ticket-row">
+                            <span data-i18n="ticketPeople">Personas</span>
+                            <strong id="ticketCount">—</strong>
+                        </div>
+                        <div class="ticket-row">
+                            <span data-i18n="ticketEvent">Evento</span>
+                            <strong>Brenda &amp; Luis</strong>
+                        </div>
+                        <div class="ticket-row">
+                            <span data-i18n="ticketDate">Fecha</span>
+                            <strong>28 · Ago · 2027</strong>
+                        </div>
+                        <div class="ticket-row">
+                            <span data-i18n="ticketFolio">Folio</span>
+                            <strong id="ticketCode">—</strong>
+                        </div>
+                    </div>
+
+                    <div class="ticket-qr">
+                        <div id="qrcode"></div>
+                        <p data-i18n="ticketQrNote">Presenta este código el día del evento.</p>
+                    </div>
+
+                </div>
+
+                <div class="ticket-foot">
+                    <button type="button" class="ticket-btn" id="downloadTicket" data-i18n="ticketDownload">
+                        Descargar pase
+                    </button>
+                    <button type="button" class="ticket-btn ticket-btn--ghost" id="resetTicket" data-i18n="ticketReset">
+                        Editar datos
+                    </button>
+                </div>
+
+                <p class="ticket-note" id="ticketNote" hidden></p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <div class="footer-mono">
+            <span>B</span>
+            <em>&</em>
+            <span>L</span>
+        </div>
+
+        <p class="footer-date">28 · Agosto · 2027</p>
+
+        <div class="footer-rule"></div>
+
+        <p class="footer-text" data-i18n="footerText">
+            Gracias por ser parte de nuestra historia.
+        </p>
+
+        <small data-i18n="footerMade">Hecho con amor</small>
+
+    </footer>
+
+
+    <!-- AUDIO -->
+    <audio id="weddingMusic" loop>
+        <source src="music/cancion.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
