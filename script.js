@@ -1,7 +1,3 @@
-/* =====================================================
-   TODO EL CÓDIGO ESPERA A QUE EL DOM ESTÉ LISTO
-===================================================== */
-
 document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================================
@@ -11,10 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     var translations = {
         es: {
             preloader: "Cargando invitación",
-            navStory: "Historia",
             navEvent: "Ceremonia",
+            navMap: "Ubicación",
             navSchedule: "Itinerario",
-            navDetails: "Detalles",
             navRsvp: "RSVP",
 
             heroEyebrow: "Estás invitado a celebrar",
@@ -22,19 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
             heroDay: "Sábado",
             heroCity: "Sacramento, California",
             heroScroll: "Descubrir",
-
-            countKicker: "Cuenta regresiva",
-            countTitle: "Faltan",
-            countDays: "Días",
-            countHours: "Horas",
-            countMinutes: "Minutos",
-            countSeconds: "Segundos",
-
-            storyKicker: "Nuestra historia",
-            storyTitle1: "Un encuentro que",
-            storyTitle2: "cambió todo",
-            storyText1: "Hay historias que comienzan sin avisar. Una mirada, una conversación y dos caminos que inesperadamente decidieron caminar juntos.",
-            storyText2: "Después de tantos momentos compartidos, aventuras, sueños y recuerdos, queremos celebrar el comienzo de nuestro siguiente capítulo con las personas que más queremos.",
 
             eventsKicker: "Acompáñanos",
             eventsTitle: "El gran día",
@@ -48,43 +30,21 @@ document.addEventListener("DOMContentLoaded", function () {
             mapTitle: "Ubicaciones",
             mapTabCeremony: "Ceremonia",
             mapTabReception: "Recepción",
-            mapOpen: "Abrir en Google Maps",
-
-            quoteText: "El amor no mira con los ojos, sino con el alma.",
 
             scheduleKicker: "Programa",
             scheduleTitle: "Itinerario del día",
-            sched1Title: "Ceremonia religiosa",
-            sched2Title: "Sesión de fotos",
-            sched2Place: "Frente a la Catedral",
-            sched3Title: "Recepción y banquete",
-            sched4Title: "Brindis y primer baile",
-            sched4Place: "Salón principal",
-            sched5Title: "Fiesta",
-            sched5Place: "¡A bailar toda la noche!",
-
-            detailsKicker: "Detalles",
-            detailsTitle: "Antes de venir",
-            detail1Title: "Código de vestimenta",
-            detail1Main: "Formal / Elegante",
-            detail1Sub: "Colores reservados: blanco",
-            detail2Title: "Solo adultos",
-            detail2Main: "Evento exclusivo",
-            detail2Sub: "Agradecemos tu comprensión",
-            detail3Title: "Mesa de regalos",
-            detail3Main: "Tu presencia es nuestro mejor regalo",
-            detail3Sub: "Lluvia de sobres",
+            sched1Title: "Ceremonia",
+            sched2Title: "Recepción",
+            sched3Title: "Comida",
+            sched4Title: "Bar",
+            sched5Title: "Fin del evento",
 
             rsvpKicker: "Confirmación",
             rsvpTitle: "¿Nos acompañas?",
-            rsvpText: "Queremos compartir este día tan especial con las personas que más queremos. Por favor confirma tu asistencia antes del 1 de Julio de 2027.",
 
             formNameLabel: "Nombre completo",
             formNamePlaceholder: "Ej. María López",
             formCountLabel: "Número de personas (incluyéndote)",
-            formHint: "Máximo 10 personas por invitación.",
-            formMessageLabel: "Mensaje para los novios (opcional)",
-            formMessagePlaceholder: "Escríbenos unas palabras…",
             formSubmit: "Confirmar asistencia",
 
             ticketKicker: "Invitación confirmada",
@@ -98,24 +58,18 @@ document.addEventListener("DOMContentLoaded", function () {
             ticketDownload: "Descargar pase",
             ticketReset: "Editar datos",
 
-            footerText: "Gracias por ser parte de nuestra historia.",
-            footerMade: "Hecho con amor",
-
             errName: "Por favor escribe tu nombre completo.",
             errCount: "Indica al menos 1 persona.",
             errMax: "Máximo 10 personas por invitación.",
             personSingular: "persona",
-            personPlural: "personas",
-
-            ticketDownloaded: "Pase descargado correctamente."
+            personPlural: "personas"
         },
 
         en: {
             preloader: "Loading invitation",
-            navStory: "Story",
             navEvent: "Ceremony",
+            navMap: "Location",
             navSchedule: "Schedule",
-            navDetails: "Details",
             navRsvp: "RSVP",
 
             heroEyebrow: "You are invited to celebrate",
@@ -123,19 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
             heroDay: "Saturday",
             heroCity: "Sacramento, California",
             heroScroll: "Discover",
-
-            countKicker: "Countdown",
-            countTitle: "Only",
-            countDays: "Days",
-            countHours: "Hours",
-            countMinutes: "Minutes",
-            countSeconds: "Seconds",
-
-            storyKicker: "Our story",
-            storyTitle1: "A meeting that",
-            storyTitle2: "changed everything",
-            storyText1: "Some stories begin without warning. A glance, a conversation, and two paths that unexpectedly decided to walk together.",
-            storyText2: "After so many shared moments, adventures, dreams and memories, we want to celebrate the beginning of our next chapter with the people we love most.",
 
             eventsKicker: "Join us",
             eventsTitle: "The big day",
@@ -149,43 +90,21 @@ document.addEventListener("DOMContentLoaded", function () {
             mapTitle: "Locations",
             mapTabCeremony: "Ceremony",
             mapTabReception: "Reception",
-            mapOpen: "Open in Google Maps",
-
-            quoteText: "Love looks not with the eyes, but with the mind.",
 
             scheduleKicker: "Program",
             scheduleTitle: "Schedule of the day",
-            sched1Title: "Religious ceremony",
-            sched2Title: "Photo session",
-            sched2Place: "In front of the Cathedral",
-            sched3Title: "Reception & dinner",
-            sched4Title: "Toast & first dance",
-            sched4Place: "Main hall",
-            sched5Title: "Party",
-            sched5Place: "Let's dance all night!",
-
-            detailsKicker: "Details",
-            detailsTitle: "Before you come",
-            detail1Title: "Dress code",
-            detail1Main: "Formal / Elegant",
-            detail1Sub: "Reserved colors: white",
-            detail2Title: "Adults only",
-            detail2Main: "Exclusive event",
-            detail2Sub: "Thank you for understanding",
-            detail3Title: "Gift registry",
-            detail3Main: "Your presence is our best gift",
-            detail3Sub: "Card box",
+            sched1Title: "Ceremony",
+            sched2Title: "Reception",
+            sched3Title: "Dinner",
+            sched4Title: "Bar",
+            sched5Title: "End of the event",
 
             rsvpKicker: "RSVP",
             rsvpTitle: "Will you join us?",
-            rsvpText: "We want to share this special day with the people we love most. Please confirm your attendance before July 1, 2027.",
 
             formNameLabel: "Full name",
             formNamePlaceholder: "e.g. Mary Johnson",
             formCountLabel: "Number of guests (including you)",
-            formHint: "Maximum 10 guests per invitation.",
-            formMessageLabel: "Message for the couple (optional)",
-            formMessagePlaceholder: "Write us a few words…",
             formSubmit: "Confirm attendance",
 
             ticketKicker: "Invitation confirmed",
@@ -199,16 +118,11 @@ document.addEventListener("DOMContentLoaded", function () {
             ticketDownload: "Download pass",
             ticketReset: "Edit data",
 
-            footerText: "Thank you for being part of our story.",
-            footerMade: "Made with love",
-
             errName: "Please enter your full name.",
             errCount: "Please indicate at least 1 guest.",
             errMax: "Maximum 10 guests per invitation.",
             personSingular: "guest",
-            personPlural: "guests",
-
-            ticketDownloaded: "Pass downloaded successfully."
+            personPlural: "guests"
         }
     };
 
@@ -220,24 +134,20 @@ document.addEventListener("DOMContentLoaded", function () {
         t = translations[lang];
         document.documentElement.lang = lang;
 
-        // Textos con data-i18n
         document.querySelectorAll("[data-i18n]").forEach(function (el) {
             var key = el.getAttribute("data-i18n");
             if (t[key] !== undefined) el.textContent = t[key];
         });
 
-        // Placeholders con data-i18n-placeholder
         document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
             var key = el.getAttribute("data-i18n-placeholder");
             if (t[key] !== undefined) el.setAttribute("placeholder", t[key]);
         });
 
-        // Actualizar el botón de idioma
         var langCurrent = document.querySelector(".lang-current");
         if (langCurrent) langCurrent.textContent = lang.toUpperCase();
     }
 
-    // Botón de idioma (toggle ES / EN)
     var langButton = document.getElementById("langButton");
     if (langButton) {
         langButton.addEventListener("click", function () {
@@ -259,47 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(hidePreloader, 1200);
     });
 
-    // Respaldo por si "load" tarda
     setTimeout(hidePreloader, 2500);
-
-
-    /* =====================================================
-       COUNTDOWN — 28 de Agosto de 2027, 11:30 AM
-    ===================================================== */
-
-    var weddingDate = new Date(2027, 7, 28, 11, 30, 0).getTime();
-
-    var countEls = {
-        days:    document.getElementById("days"),
-        hours:   document.getElementById("hours"),
-        minutes: document.getElementById("minutes"),
-        seconds: document.getElementById("seconds")
-    };
-
-    function updateCountdown() {
-        var diff = weddingDate - Date.now();
-
-        if (diff <= 0) {
-            if (countEls.days)    countEls.days.textContent    = "00";
-            if (countEls.hours)   countEls.hours.textContent   = "00";
-            if (countEls.minutes) countEls.minutes.textContent = "00";
-            if (countEls.seconds) countEls.seconds.textContent = "00";
-            return;
-        }
-
-        var d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        var h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        var s = Math.floor((diff % (1000 * 60)) / 1000);
-
-        if (countEls.days)    countEls.days.textContent    = String(d).padStart(2, "0");
-        if (countEls.hours)   countEls.hours.textContent   = String(h).padStart(2, "0");
-        if (countEls.minutes) countEls.minutes.textContent = String(m).padStart(2, "0");
-        if (countEls.seconds) countEls.seconds.textContent = String(s).padStart(2, "0");
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
 
 
     /* =====================================================
@@ -344,15 +214,13 @@ document.addEventListener("DOMContentLoaded", function () {
         tab.addEventListener("click", function () {
             var target = tab.getAttribute("data-map");
 
-            mapTabs.forEach(function (t) { t.classList.remove("is-active"); });
+            mapTabs.forEach(function (x) { x.classList.remove("is-active"); });
             tab.classList.add("is-active");
 
             mapFrames.forEach(function (frame) {
-                if (frame.id === "map" + target.charAt(0).toUpperCase() + target.slice(1)) {
-                    frame.classList.add("is-active");
-                } else {
-                    frame.classList.remove("is-active");
-                }
+                var id = "map" + target.charAt(0).toUpperCase() + target.slice(1);
+                if (frame.id === id) frame.classList.add("is-active");
+                else frame.classList.remove("is-active");
             });
         });
     });
@@ -373,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, { threshold: 0.12 });
 
         document.querySelectorAll(
-            ".section-head, .count-cell, .event-card, .detail-card, .timeline-list li, .story-inner, .quote-inner, .rsvp-inner, .map-wrapper"
+            ".section-head, .event-card, .timeline-list li, .rsvp-inner, .map-wrapper"
         ).forEach(function (el) {
             el.classList.add("reveal");
             revealObserver.observe(el);
@@ -406,44 +274,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       PARALLAX HERO
-    ===================================================== */
-
-    var heroContent = document.querySelector(".hero-content");
-
-    window.addEventListener("scroll", function () {
-        var y = window.scrollY;
-        if (y < window.innerHeight && heroContent) {
-            heroContent.style.transform = "translateY(" + (y * 0.15) + "px)";
-            heroContent.style.opacity = String(Math.max(0, 1 - y / 700));
-        }
-    });
-
-
-    /* =====================================================
        RSVP — CONFIRMACIÓN CON QR
     ===================================================== */
 
     var form       = document.getElementById("rsvpForm");
     var nameInput  = document.getElementById("guestName");
     var countInput = document.getElementById("guestCount");
-    var msgInput   = document.getElementById("guestMessage");
     var errorBox   = document.getElementById("rsvpError");
 
-    var ticket       = document.getElementById("ticket");
-    var ticketName   = document.getElementById("ticketName");
-    var ticketCount  = document.getElementById("ticketCount");
-    var ticketCode   = document.getElementById("ticketCode");
-    var ticketNote   = document.getElementById("ticketNote");
-    var qrContainer  = document.getElementById("qrcode");
+    var ticket      = document.getElementById("ticket");
+    var ticketName  = document.getElementById("ticketName");
+    var ticketCount = document.getElementById("ticketCount");
+    var ticketCode  = document.getElementById("ticketCode");
+    var qrContainer = document.getElementById("qrcode");
 
     var downloadBtn = document.getElementById("downloadTicket");
     var resetBtn    = document.getElementById("resetTicket");
 
     if (!form) return;
 
-
-    /* ---------- Contador +/- ---------- */
 
     document.querySelectorAll(".counter-btn").forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -458,8 +307,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    /* ---------- Mostrar/ocultar error ---------- */
-
     function showError(msg) {
         if (!errorBox) return;
         errorBox.textContent = msg;
@@ -472,8 +319,6 @@ document.addEventListener("DOMContentLoaded", function () {
         errorBox.hidden = true;
     }
 
-
-    /* ---------- Generar folio único ---------- */
 
     function generateCode(name) {
         var cleanName = (name || "")
@@ -492,8 +337,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* ---------- Payload del QR ---------- */
-
     function buildQRPayload(data) {
         return [
             "WEDDING BRENDA & LUIS",
@@ -505,13 +348,13 @@ document.addEventListener("DOMContentLoaded", function () {
             "Ceremony: Cathedral of the Blessed Sacrament",
             "1019 11th St, Sacramento, CA 95814",
             "Reception: 7620 Balfour Rd, Brentwood, CA 94513",
-            "------------------------------",
-            "Show this code at the event entrance."
+            "Dinner: 4:30 - 7:30 PM",
+            "Bar: 6:30 - 10:30 PM",
+            "End: 11:00 PM",
+            "------------------------------"
         ].join("\n");
     }
 
-
-    /* ---------- Renderizar QR (con fallback) ---------- */
 
     function renderQR(text) {
         if (!qrContainer) return;
@@ -523,24 +366,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 var qr = qrcode(0, "M");
                 qr.addData(text);
                 qr.make();
-                var imgTag = qr.createImgTag(6, 8);
-                qrContainer.innerHTML = imgTag;
+                qrContainer.innerHTML = qr.createImgTag(6, 8);
                 return;
             }
         } catch (err) {
             console.warn("Error al generar QR:", err);
         }
 
-        // Fallback si la librería falla
         qrContainer.innerHTML =
             '<div style="font-size:10px;text-align:center;color:#5f6b52;padding:8px;">' +
-            'Tu pase ha sido generado.<br>Folio: ' +
-            '<strong style="display:block;margin-top:6px;">' + text.split("\n")[2] + '</strong>' +
+            'Folio: <strong>' + text.split("\n")[2] + '</strong>' +
             '</div>';
     }
 
-
-    /* ---------- Mostrar ticket ---------- */
 
     function showTicket(data) {
         ticketName.textContent  = data.name;
@@ -562,15 +400,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* ---------- Submit del formulario ---------- */
-
     form.addEventListener("submit", function (e) {
         e.preventDefault();
         clearError();
 
         var name  = (nameInput.value || "").trim();
         var count = parseInt(countInput.value, 10);
-        var msg   = msgInput ? msgInput.value.trim() : "";
 
         if (name.length < 3) {
             showError(t.errName);
@@ -593,7 +428,6 @@ document.addEventListener("DOMContentLoaded", function () {
         var data = {
             name: name,
             count: count,
-            message: msg,
             code: code,
             lang: currentLang,
             createdAt: new Date().toISOString()
@@ -601,13 +435,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         try {
             localStorage.setItem("bl_rsvp", JSON.stringify(data));
-        } catch (err) { /* silencioso */ }
+        } catch (err) {}
 
         showTicket(data);
     });
 
-
-    /* ---------- Botón "Editar datos" ---------- */
 
     if (resetBtn) {
         resetBtn.addEventListener("click", function () {
@@ -619,8 +451,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
-    /* ---------- Botón "Descargar pase" ---------- */
 
     if (downloadBtn) {
         downloadBtn.addEventListener("click", function () {
@@ -707,29 +537,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 try {
                     ctx.drawImage(qrNode, qx, qy, qrSize, qrSize);
-                } catch (err) { /* omitir */ }
-
-                ctx.textAlign = "center";
-                ctx.fillStyle = "#8f9488";
-                ctx.font = "500 11px 'Montserrat', sans-serif";
-                ctx.fillText("Show this code at the event", W / 2, qy + qrSize + 40);
+                } catch (err) {}
             }
 
             var link = document.createElement("a");
             link.download = "Pass-" + code + ".png";
             link.href = out.toDataURL("image/png");
             link.click();
-
-            if (ticketNote) {
-                ticketNote.textContent = t.ticketDownloaded;
-                ticketNote.hidden = false;
-                setTimeout(function () { ticketNote.hidden = true; }, 4000);
-            }
         });
     }
 
-
-    /* ---------- Restaurar RSVP previo ---------- */
 
     try {
         var saved = localStorage.getItem("bl_rsvp");
@@ -738,9 +555,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (data && data.name && data.code) {
                 if (nameInput) nameInput.value = data.name;
                 if (countInput) countInput.value = data.count;
-                if (msgInput) msgInput.value = data.message || "";
 
-                // Aplicar idioma guardado
                 if (data.lang && (data.lang === "es" || data.lang === "en")) {
                     applyLanguage(data.lang);
                 }
@@ -748,10 +563,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 showTicket(data);
             }
         }
-    } catch (err) { /* silencioso */ }
+    } catch (err) {}
 
-
-    /* ---------- Aplicar idioma inicial ---------- */
 
     applyLanguage(currentLang);
 
