@@ -26,6 +26,19 @@ const rsvpCollection = collection(db, "rsvp");
 
 
 /* =====================================================
+   FECHA LÍMITE DE CONFIRMACIÓN
+   3 de julio de 2027 a las 23:59:59 (hora local)
+===================================================== */
+
+const RSVP_DEADLINE = new Date(2027, 6, 3, 23, 59, 59).getTime();
+// Nota: mes 6 = julio (enero = 0)
+
+function isRsvpOpen() {
+    return Date.now() <= RSVP_DEADLINE;
+}
+
+
+/* =====================================================
    DOM LISTO
 ===================================================== */
 
@@ -74,6 +87,12 @@ document.addEventListener("DOMContentLoaded", function () {
             rsvpKicker: "Confirmación",
             rsvpTitle: "¿Nos acompañas?",
 
+            deadlineLabel: "Fecha límite de confirmación:",
+            deadlineDate: "3 de julio de 2027",
+
+            closedTitle: "Confirmaciones cerradas",
+            closedText: "El período de confirmación terminó el 3 de julio de 2027. Si tienes alguna duda, contacta directamente a los novios.",
+
             formNameLabel: "Nombre completo",
             formNamePlaceholder: "Ej. María López",
             formCountLabel: "Número de personas (incluyéndote)",
@@ -95,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
             errCount: "Indica al menos 1 persona.",
             errMax: "Máximo 10 personas por invitación.",
             errSave: "No se pudo guardar la confirmación. Intenta de nuevo.",
+            errClosed: "El período de confirmación ya cerró (3 de julio de 2027).",
             personSingular: "persona",
             personPlural: "personas"
         },
@@ -137,6 +157,12 @@ document.addEventListener("DOMContentLoaded", function () {
             rsvpKicker: "RSVP",
             rsvpTitle: "Will you join us?",
 
+            deadlineLabel: "RSVP deadline:",
+            deadlineDate: "July 3, 2027",
+
+            closedTitle: "RSVP is closed",
+            closedText: "The confirmation period ended on July 3, 2027. If you have any questions, please contact the couple directly.",
+
             formNameLabel: "Full name",
             formNamePlaceholder: "e.g. Mary Johnson",
             formCountLabel: "Number of guests (including you)",
@@ -158,6 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
             errCount: "Please indicate at least 1 guest.",
             errMax: "Maximum 10 guests per invitation.",
             errSave: "Could not save confirmation. Please try again.",
+            errClosed: "The RSVP period has closed (July 3, 2027).",
             personSingular: "guest",
             personPlural: "guests"
         }
@@ -284,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       RSVP — FIREBASE + QR
+       RSVP — FIREBASE + QR + LÍMITE DE FECHA
     ===================================================== */
 
     var form       = document.getElementById("rsvpForm");
@@ -302,11 +329,62 @@ document.addEventListener("DOMContentLoaded", function () {
     var resetBtn    = document.getElementById("resetTicket");
     var submitBtn   = document.getElementById("rsvpSubmit");
 
+    var deadlineBox = document.getElementById("rsvpDeadline");
+    var closedBox   = document.getElementById("rsvpClosed");
+
     if (!form) return;
 
 
+    /* ---------- BLOQUEO POR FECHA LÍMITE ---------- */
+
+    function applyDeadlineState() {
+        var open = isRsvpOpen();
+
+        if (open) {
+            // Está abierto: mostrar aviso, formulario activo
+            if (deadlineBox) deadlineBox.hidden = false;
+            if (closedBox)   closedBox.hidden   = true;
+            form.hidden = false;
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.style.display = "";
+            }
+
+            // Habilitar inputs
+            if (nameInput)  nameInput.disabled  = false;
+            if (countInput) countInput.disabled = false;
+            document.querySelectorAll(".counter-btn").forEach(function (b) {
+                b.disabled = false;
+            });
+
+        } else {
+            // Ya cerró: ocultar aviso, mostrar mensaje, desactivar form
+            if (deadlineBox) deadlineBox.hidden = true;
+            if (closedBox)   closedBox.hidden   = false;
+            form.hidden = true;
+
+            if (submitBtn) submitBtn.disabled = true;
+
+            if (nameInput)  nameInput.disabled  = true;
+            if (countInput) countInput.disabled = true;
+            document.querySelectorAll(".counter-btn").forEach(function (b) {
+                b.disabled = true;
+            });
+        }
+    }
+
+    applyDeadlineState();
+    // Revisar cada minuto por si alguien tiene la página abierta cuando cruce la fecha
+    setInterval(applyDeadlineState, 60000);
+
+
+    /* ---------- Contador +/- ---------- */
+
     document.querySelectorAll(".counter-btn").forEach(function (btn) {
         btn.addEventListener("click", function () {
+            if (!isRsvpOpen()) return;
+
             var value = parseInt(countInput.value, 10) || 1;
             var action = btn.getAttribute("data-action");
             if (action === "inc" && value < 10) value++;
@@ -403,6 +481,13 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         clearError();
 
+        // Doble chequeo de fecha límite
+        if (!isRsvpOpen()) {
+            showError(t.errClosed);
+            applyDeadlineState();
+            return;
+        }
+
         var name  = (nameInput.value || "").trim();
         var count = parseInt(countInput.value, 10);
 
@@ -421,15 +506,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         var code = generateCode(name);
+        var data = { name: name, count: count, code: code, lang: currentLang };
 
-        var data = {
-            name: name,
-            count: count,
-            code: code,
-            lang: currentLang
-        };
-
-        // Deshabilitar botón mientras guarda
         if (submitBtn) {
             submitBtn.disabled = true;
             var submitLabel = submitBtn.querySelector("[data-i18n]");
@@ -437,7 +515,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            // Guardar en Firestore
             await addDoc(rsvpCollection, {
                 name: data.name,
                 count: data.count,
@@ -446,10 +523,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 createdAt: serverTimestamp()
             });
 
-            // Guardar también en localStorage para restaurar el pase
-            try {
-                localStorage.setItem("bl_rsvp", JSON.stringify(data));
-            } catch (err) {}
+            try { localStorage.setItem("bl_rsvp", JSON.stringify(data)); } catch (err) {}
 
             showTicket(data);
 
