@@ -6,15 +6,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/fireba
 import {
     getFirestore,
     collection,
-    query,
-    orderBy,
-    onSnapshot
+    onSnapshot,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDraLBBSM9IrRMb-kwTRHhe2cmI6Mh1pyo",
     authDomain: "bodamonce-luis.firebaseapp.com",
-    projectId: "bodomonce-luis",
+    projectId: "bodamonce-luis",
     storageBucket: "bodamonce-luis.firebasestorage.app",
     messagingSenderId: "636124812998",
     appId: "1:636124812998:web:a0607315cafd9c34b9a9c7",
@@ -23,6 +22,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
+const rsvpCollection = collection(db, "rsvp");
 
 
 /* =====================================================
@@ -49,6 +49,7 @@ const translations = {
         thDate: "Fecha",
         emptyNote: "Aún no hay confirmaciones.",
         emptyRow: "Sin resultados.",
+        noData: "No se pudieron cargar las confirmaciones.",
         personSingular: "persona",
         personPlural: "personas"
     },
@@ -71,6 +72,7 @@ const translations = {
         thDate: "Date",
         emptyNote: "No confirmations yet.",
         emptyRow: "No results.",
+        noData: "Could not load confirmations.",
         personSingular: "guest",
         personPlural: "guests"
     }
@@ -79,6 +81,11 @@ const translations = {
 let currentLang = "es";
 let t = translations[currentLang];
 let allGuests = [];
+
+
+/* =====================================================
+   APLICAR IDIOMA
+===================================================== */
 
 function applyLanguage(lang) {
     currentLang = lang;
@@ -106,22 +113,6 @@ function applyLanguage(lang) {
    UTILIDADES
 ===================================================== */
 
-function formatDate(ts) {
-    if (!ts) return "—";
-    let date;
-    if (typeof ts.toDate === "function") date = ts.toDate();
-    else if (typeof ts === "number") date = new Date(ts);
-    else if (typeof ts === "string") date = new Date(ts);
-    else return "—";
-
-    const day   = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year  = date.getFullYear();
-    const hh    = String(date.getHours()).padStart(2, "0");
-    const mm    = String(date.getMinutes()).padStart(2, "0");
-    return `${day}/${month}/${year} · ${hh}:${mm}`;
-}
-
 function escapeHtml(str) {
     return String(str)
         .replace(/&/g, "&amp;")
@@ -130,9 +121,54 @@ function escapeHtml(str) {
         .replace(/"/g, "&quot;");
 }
 
+/* Convierte cualquier formato de fecha en string legible */
+function formatDate(ts) {
+    if (!ts) return "—";
+
+    let date;
+
+    try {
+        if (typeof ts.toDate === "function") {
+            date = ts.toDate();
+        } else if (typeof ts.seconds === "number") {
+            date = new Date(ts.seconds * 1000);
+        } else if (typeof ts === "number") {
+            date = new Date(ts);
+        } else if (typeof ts === "string") {
+            date = new Date(ts);
+        } else {
+            return "—";
+        }
+    } catch (err) {
+        return "—";
+    }
+
+    if (isNaN(date.getTime())) return "—";
+
+    const day   = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year  = date.getFullYear();
+    const hh    = String(date.getHours()).padStart(2, "0");
+    const mm    = String(date.getMinutes()).padStart(2, "0");
+
+    return `${day}/${month}/${year} · ${hh}:${mm}`;
+}
+
+/* Devuelve timestamp en milisegundos para ordenar */
+function getTimestamp(ts) {
+    if (!ts) return 0;
+    try {
+        if (typeof ts.toDate === "function") return ts.toDate().getTime();
+        if (typeof ts.seconds === "number") return ts.seconds * 1000;
+        if (typeof ts === "number") return ts;
+        if (typeof ts === "string") return new Date(ts).getTime() || 0;
+    } catch (err) {}
+    return 0;
+}
+
 
 /* =====================================================
-   RENDER
+   RENDER DE LA TABLA
 ===================================================== */
 
 function renderTable(guests) {
@@ -143,52 +179,57 @@ function renderTable(guests) {
 
     if (!tbody) return;
 
-    // Stats globales (siempre sobre TODOS los invitados)
+    /* Estadísticas globales (sobre TODOS los invitados, no filtrados) */
     const totalInvitations = allGuests.length;
-    const totalPeople = allGuests.reduce(function (sum, g) { return sum + (g.count || 0); }, 0);
+    const totalPeople = allGuests.reduce(function (sum, g) {
+        return sum + (Number(g.count) || 0);
+    }, 0);
 
     if (statInvitations) statInvitations.textContent = totalInvitations;
     if (statPeople) statPeople.textContent = totalPeople;
 
-    // Filtro
-    const search = (document.getElementById("searchInput")?.value || "")
-        .trim().toLowerCase();
-
-    const filtered = guests.filter(function (g) {
-        if (!search) return true;
-        return (
-            (g.name || "").toLowerCase().includes(search) ||
-            (g.code || "").toLowerCase().includes(search)
-        );
-    });
-
-    // Empty state
+    /* Sin datos aún */
     if (allGuests.length === 0) {
         tbody.innerHTML =
-            '<tr><td colspan="4" class="empty">' + escapeHtml(t.loading) + '</td></tr>';
-        if (emptyNote) emptyNote.hidden = false;
+            '<tr><td colspan="4" class="empty">' +
+            escapeHtml(t.emptyNote) +
+            '</td></tr>';
+        if (emptyNote) emptyNote.hidden = true;
         return;
     }
 
     if (emptyNote) emptyNote.hidden = true;
 
+    /* Filtro de búsqueda */
+    const searchInput = document.getElementById("searchInput");
+    const search = (searchInput?.value || "").trim().toLowerCase();
+
+    const filtered = guests.filter(function (g) {
+        if (!search) return true;
+        const name = (g.name || "").toLowerCase();
+        const code = (g.code || "").toLowerCase();
+        return name.includes(search) || code.includes(search);
+    });
+
     if (filtered.length === 0) {
         tbody.innerHTML =
-            '<tr><td colspan="4" class="empty">' + escapeHtml(t.emptyRow) + '</td></tr>';
+            '<tr><td colspan="4" class="empty">' +
+            escapeHtml(t.emptyRow) +
+            '</td></tr>';
         return;
     }
 
-    // Ordenar por fecha descendente
+    /* Ordenar por fecha descendente (más recientes primero) */
     filtered.sort(function (a, b) {
-        const ta = a.createdAt?.seconds || 0;
-        const tb = b.createdAt?.seconds || 0;
-        return tb - ta;
+        return getTimestamp(b.createdAt) - getTimestamp(a.createdAt);
     });
 
+    /* Renderizar filas */
     tbody.innerHTML = filtered.map(function (g) {
-        const countLabel = (g.count === 1)
-            ? g.count + " " + t.personSingular
-            : g.count + " " + t.personPlural;
+        const count = Number(g.count) || 0;
+        const countLabel = (count === 1)
+            ? count + " " + t.personSingular
+            : count + " " + t.personPlural;
 
         return (
             '<tr>' +
@@ -203,48 +244,99 @@ function renderTable(guests) {
 
 
 /* =====================================================
-   FIRESTORE EN TIEMPO REAL
+   CARGAR DATOS DESDE FIRESTORE
+   ⚠️ SIN orderBy → trae TODOS los documentos
 ===================================================== */
 
 const statusEl = document.getElementById("statStatus");
 if (statusEl) statusEl.textContent = t.loading;
 
-const rsvpQuery = query(
-    collection(db, "rsvp"),
-    orderBy("createdAt", "desc")
-);
 
-onSnapshot(rsvpQuery,
-    function (snapshot) {
-        allGuests = [];
-        snapshot.forEach(function (doc) {
-            const d = doc.data();
-            allGuests.push({
-                id: doc.id,
-                name: d.name || "",
-                count: d.count || 0,
-                code: d.code || "",
-                lang: d.lang || "es",
-                createdAt: d.createdAt || null
+/* 1) Intento principal: onSnapshot en tiempo real */
+let unsubscribe = null;
+
+try {
+    unsubscribe = onSnapshot(
+        rsvpCollection,
+        function (snapshot) {
+            allGuests = [];
+
+            snapshot.forEach(function (doc) {
+                const d = doc.data() || {};
+
+                allGuests.push({
+                    id: doc.id,
+                    name: d.name || "",
+                    count: Number(d.count) || 0,
+                    code: d.code || "",
+                    lang: d.lang || "es",
+                    createdAt: d.createdAt || null
+                });
             });
-        });
 
-        if (statusEl) statusEl.textContent = t.live;
-        renderTable(allGuests);
-    },
-    function (error) {
-        console.error("Firestore error:", error);
-        if (statusEl) statusEl.textContent = t.offline;
+            if (statusEl) statusEl.textContent = t.live;
+            renderTable(allGuests);
+        },
+        function (error) {
+            console.error("Firestore onSnapshot error:", error);
+            if (statusEl) statusEl.textContent = t.offline;
 
-        const tbody = document.getElementById("guestList");
-        if (tbody) {
-            tbody.innerHTML =
-                '<tr><td colspan="4" class="empty">' +
-                escapeHtml(t.offline) +
-                '</td></tr>';
+            /* Fallback: intentar getDocs una sola vez */
+            getDocs(rsvpCollection)
+                .then(function (snapshot) {
+                    allGuests = [];
+                    snapshot.forEach(function (doc) {
+                        const d = doc.data() || {};
+                        allGuests.push({
+                            id: doc.id,
+                            name: d.name || "",
+                            count: Number(d.count) || 0,
+                            code: d.code || "",
+                            lang: d.lang || "es",
+                            createdAt: d.createdAt || null
+                        });
+                    });
+                    if (statusEl) statusEl.textContent = t.live;
+                    renderTable(allGuests);
+                })
+                .catch(function (err2) {
+                    console.error("Firestore getDocs error:", err2);
+                    const tbody = document.getElementById("guestList");
+                    if (tbody) {
+                        tbody.innerHTML =
+                            '<tr><td colspan="4" class="empty">' +
+                            escapeHtml(t.noData) +
+                            '</td></tr>';
+                    }
+                });
         }
-    }
-);
+    );
+} catch (err) {
+    console.error("Error inicializando onSnapshot:", err);
+
+    /* Fallback directo */
+    getDocs(rsvpCollection)
+        .then(function (snapshot) {
+            allGuests = [];
+            snapshot.forEach(function (doc) {
+                const d = doc.data() || {};
+                allGuests.push({
+                    id: doc.id,
+                    name: d.name || "",
+                    count: Number(d.count) || 0,
+                    code: d.code || "",
+                    lang: d.lang || "es",
+                    createdAt: d.createdAt || null
+                });
+            });
+            if (statusEl) statusEl.textContent = t.live;
+            renderTable(allGuests);
+        })
+        .catch(function (err2) {
+            console.error("Firestore getDocs error:", err2);
+            if (statusEl) statusEl.textContent = t.offline;
+        });
+}
 
 
 /* =====================================================
@@ -260,20 +352,26 @@ document.getElementById("searchInput")?.addEventListener("input", function () {
    BOTONES
 ===================================================== */
 
+/* Idioma */
 document.getElementById("langButton")?.addEventListener("click", function () {
     applyLanguage(currentLang === "es" ? "en" : "es");
 });
 
 
-/* EXPORTAR CSV */
+/* Exportar CSV */
 document.getElementById("exportBtn")?.addEventListener("click", function () {
     if (allGuests.length === 0) return;
+
+    /* Ordenar por fecha descendente antes de exportar */
+    const sorted = allGuests.slice().sort(function (a, b) {
+        return getTimestamp(b.createdAt) - getTimestamp(a.createdAt);
+    });
 
     const rows = [
         ["Nombre", "Personas", "Folio", "Fecha"]
     ];
 
-    allGuests.forEach(function (g) {
+    sorted.forEach(function (g) {
         rows.push([
             g.name,
             g.count,
@@ -299,7 +397,7 @@ document.getElementById("exportBtn")?.addEventListener("click", function () {
 });
 
 
-/* IMPRIMIR */
+/* Imprimir */
 document.getElementById("printBtn")?.addEventListener("click", function () {
     window.print();
 });
