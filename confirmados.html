@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lista de Confirmados — Brenda & Luis</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="confirmados.css">
+</head>
+
+<body>
+
+    <header class="admin-header">
+        <div class="admin-header-inner">
+
+            <div class="admin-brand">
+                <span class="admin-mono">B&nbsp;<em>&</em>&nbsp;L</span>
+                <p data-i18n="adminKicker">Panel de invitados</p>
+            </div>
+
+            <div class="admin-actions">
+
+                <button class="lang-button" id="langButton" aria-label="Cambiar idioma">
+                    <span class="lang-current">ES</span>
+                    <span class="lang-arrow">▾</span>
+                </button>
+
+                <button class="admin-btn" id="exportBtn" data-i18n="exportCsv">
+                    Exportar CSV
+                </button>
+
+                <button class="admin-btn admin-btn--ghost" id="printBtn" data-i18n="print">
+                    Imprimir
+                </button>
+
+            </div>
+
+        </div>
+    </header>
+
+
+    <main class="admin-main">
+
+        <div class="section-head">
+            <span class="section-kicker" data-i18n="listKicker">Confirmaciones</span>
+            <h1 class="section-title" data-i18n="listTitle">Lista de invitados</h1>
+            <div class="section-rule"></div>
+        </div>
+
+
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <span class="stat-label" data-i18n="statInvitations">Confirmaciones</span>
+                <strong class="stat-value" id="statInvitations">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label" data-i18n="statPeople">Personas totales</span>
+                <strong class="stat-value" id="statPeople">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label" data-i18n="statStatus">Estado</span>
+                <strong class="stat-value stat-value--small" id="statStatus" data-i18n="loading">
+                    Cargando…
+                </strong>
+            </div>
+
+        </div>
+
+
+        <!-- Búsqueda -->
+        <div class="search-wrap">
+            <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder"
+                   placeholder="Buscar por nombre o folio…">
+        </div>
+
+
+        <!-- Tabla -->
+        <div class="table-wrap">
+
+            <table class="guest-table">
+                <thead>
+                    <tr>
+                        <th data-i18n="thName">Invitado</th>
+                        <th data-i18n="thPeople">Personas</th>
+                        <th data-i18n="thFolio">Folio</th>
+                        <th data-i18n="thDate">Fecha</th>
+                    </tr>
+                </thead>
+                <tbody id="guestList">
+                    <tr>
+                        <td colspan="4" class="empty" data-i18n="loading">
+                            Cargando confirmaciones…
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <p class="admin-note" id="emptyNote" hidden data-i18n="emptyNote">
+            Aún no hay confirmaciones.
+        </p>
+
+    </main>
+
+
+    <script type="module" src="confirmados.js"></script>
+
+</body>
+</html>
