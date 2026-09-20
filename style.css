@@ -468,8 +468,79 @@ a { color: inherit; }
     font-family: var(--script);
     font-size: clamp(48px, 8vw, 90px);
     font-weight: 400; color: var(--sage-mist);
-    line-height: 1; margin-bottom: 40px;
+    line-height: 1; margin-bottom: 30px;
 }
+
+
+/* AVISO DE FECHA LÍMITE */
+.rsvp-deadline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: rgba(200, 213, 190, .10);
+    border: 1px solid rgba(200, 213, 190, .35);
+    padding: 18px 24px;
+    margin-bottom: 34px;
+    text-align: left;
+}
+.deadline-icon {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.deadline-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--sage-soft);
+    margin: 0;
+}
+.deadline-text strong {
+    display: block;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sage-light);
+    margin-bottom: 4px;
+}
+.deadline-text span[data-i18n="deadlineDate"] {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--sage-mist);
+}
+
+
+/* MENSAJE CUANDO YA CERRÓ */
+.rsvp-closed {
+    background: rgba(200, 100, 100, .12);
+    border: 1px solid rgba(200, 130, 130, .35);
+    padding: 40px 30px;
+    text-align: center;
+}
+.closed-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+.closed-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--sage-mist);
+    margin-bottom: 12px;
+}
+.closed-text {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--sage-soft);
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+
+/* FORM */
 .rsvp-form {
     text-align: left;
     background: rgba(246, 244, 238, .06);
@@ -541,7 +612,7 @@ a { color: inherit; }
 .rsvp-button:hover { background: var(--sage-soft); color: var(--sage-ink); }
 .rsvp-button .arrow { transition: transform .4s; }
 .rsvp-button:hover .arrow { transform: translateX(5px); }
-.rsvp-button:disabled { opacity: .6; cursor: not-allowed; }
+.rsvp-button:disabled { opacity: .5; cursor: not-allowed; }
 .rsvp-error {
     margin-top: 20px;
     font-size: 12px; letter-spacing: 2px;
@@ -698,4 +769,6 @@ a { color: inherit; }
     .timeline-list .time { font-size: 12px; }
     .timeline-content h4 { font-size: 16px; }
     .timeline-content p { font-size: 10px; letter-spacing: 1px; }
-}q
+    .rsvp-deadline { flex-direction: column; text-align: center; gap: 10px; }
+    .deadline-text { text-align: center; }
+}
