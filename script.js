@@ -1,3 +1,34 @@
+/* =====================================================
+   FIREBASE — CONFIG REAL
+===================================================== */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDraLBBSM9IrRMb-kwTRHhe2cmI6Mh1pyo",
+    authDomain: "bodamonce-luis.firebaseapp.com",
+    projectId: "bodamonce-luis",
+    storageBucket: "bodamonce-luis.firebasestorage.app",
+    messagingSenderId: "636124812998",
+    appId: "1:636124812998:web:a0607315cafd9c34b9a9c7",
+    measurementId: "G-YF2HE2JCHV"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+const rsvpCollection = collection(db, "rsvp");
+
+
+/* =====================================================
+   DOM LISTO
+===================================================== */
+
 document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================================
@@ -37,7 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
             sched2Title: "Recepción",
             sched3Title: "Comida",
             sched4Title: "Bar",
-            sched5Title: "Fin del evento",
+            sched5Title: "Música / Baile",
+            sched6Title: "Fin del evento",
 
             rsvpKicker: "Confirmación",
             rsvpTitle: "¿Nos acompañas?",
@@ -46,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
             formNamePlaceholder: "Ej. María López",
             formCountLabel: "Número de personas (incluyéndote)",
             formSubmit: "Confirmar asistencia",
+            formSubmitting: "Guardando...",
 
             ticketKicker: "Invitación confirmada",
             ticketTitle: "Pase de entrada",
@@ -61,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
             errName: "Por favor escribe tu nombre completo.",
             errCount: "Indica al menos 1 persona.",
             errMax: "Máximo 10 personas por invitación.",
+            errSave: "No se pudo guardar la confirmación. Intenta de nuevo.",
             personSingular: "persona",
             personPlural: "personas"
         },
@@ -97,7 +131,8 @@ document.addEventListener("DOMContentLoaded", function () {
             sched2Title: "Reception",
             sched3Title: "Dinner",
             sched4Title: "Bar",
-            sched5Title: "End of the event",
+            sched5Title: "Music / Dancing",
+            sched6Title: "End of the event",
 
             rsvpKicker: "RSVP",
             rsvpTitle: "Will you join us?",
@@ -106,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
             formNamePlaceholder: "e.g. Mary Johnson",
             formCountLabel: "Number of guests (including you)",
             formSubmit: "Confirm attendance",
+            formSubmitting: "Saving...",
 
             ticketKicker: "Invitation confirmed",
             ticketTitle: "Entry pass",
@@ -121,6 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
             errName: "Please enter your full name.",
             errCount: "Please indicate at least 1 guest.",
             errMax: "Maximum 10 guests per invitation.",
+            errSave: "Could not save confirmation. Please try again.",
             personSingular: "guest",
             personPlural: "guests"
         }
@@ -156,28 +193,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       PRELOADER
-    ===================================================== */
-
+    /* PRELOADER */
     function hidePreloader() {
         var preloader = document.getElementById("preloader");
         if (preloader) preloader.classList.add("hidden");
     }
-
-    window.addEventListener("load", function () {
-        setTimeout(hidePreloader, 1200);
-    });
-
+    window.addEventListener("load", function () { setTimeout(hidePreloader, 1200); });
     setTimeout(hidePreloader, 2500);
 
 
-    /* =====================================================
-       NAVBAR SCROLL
-    ===================================================== */
-
+    /* NAVBAR SCROLL */
     var navbar = document.getElementById("navbar");
-
     window.addEventListener("scroll", function () {
         if (!navbar) return;
         if (window.scrollY > 60) navbar.classList.add("scrolled");
@@ -185,15 +211,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    /* =====================================================
-       SMOOTH SCROLL
-    ===================================================== */
-
+    /* SMOOTH SCROLL */
     document.querySelectorAll('a[href^="#"]').forEach(function (link) {
         link.addEventListener("click", function (e) {
             var id = this.getAttribute("href");
             if (!id || id === "#" || id.length < 2) return;
-
             var target = document.querySelector(id);
             if (target) {
                 e.preventDefault();
@@ -203,20 +225,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    /* =====================================================
-       MAPA — TABS
-    ===================================================== */
-
+    /* MAPA TABS */
     var mapTabs = document.querySelectorAll(".map-tab");
     var mapFrames = document.querySelectorAll(".map-frame");
-
     mapTabs.forEach(function (tab) {
         tab.addEventListener("click", function () {
             var target = tab.getAttribute("data-map");
-
             mapTabs.forEach(function (x) { x.classList.remove("is-active"); });
             tab.classList.add("is-active");
-
             mapFrames.forEach(function (frame) {
                 var id = "map" + target.charAt(0).toUpperCase() + target.slice(1);
                 if (frame.id === id) frame.classList.add("is-active");
@@ -226,10 +242,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    /* =====================================================
-       REVEAL ON SCROLL
-    ===================================================== */
-
+    /* REVEAL */
     if ("IntersectionObserver" in window) {
         var revealObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
@@ -249,10 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       MÚSICA
-    ===================================================== */
-
+    /* MÚSICA */
     var music       = document.getElementById("weddingMusic");
     var musicButton = document.getElementById("musicButton");
     var musicIcon   = musicButton ? musicButton.querySelector(".music-icon") : null;
@@ -274,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       RSVP — CONFIRMACIÓN CON QR
+       RSVP — FIREBASE + QR
     ===================================================== */
 
     var form       = document.getElementById("rsvpForm");
@@ -290,6 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var downloadBtn = document.getElementById("downloadTicket");
     var resetBtn    = document.getElementById("resetTicket");
+    var submitBtn   = document.getElementById("rsvpSubmit");
 
     if (!form) return;
 
@@ -298,10 +309,8 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.addEventListener("click", function () {
             var value = parseInt(countInput.value, 10) || 1;
             var action = btn.getAttribute("data-action");
-
             if (action === "inc" && value < 10) value++;
             if (action === "dec" && value > 1)  value--;
-
             countInput.value = value;
         });
     });
@@ -312,7 +321,6 @@ document.addEventListener("DOMContentLoaded", function () {
         errorBox.textContent = msg;
         errorBox.hidden = false;
     }
-
     function clearError() {
         if (!errorBox) return;
         errorBox.textContent = "";
@@ -322,17 +330,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function generateCode(name) {
         var cleanName = (name || "")
-            .trim()
-            .toUpperCase()
+            .trim().toUpperCase()
             .replace(/[^A-ZÁÉÍÓÚÑ ]/g, "")
             .split(/\s+/)
             .map(function (w) { return w.charAt(0); })
             .join("")
             .slice(0, 4) || "INV";
-
         var random = Math.random().toString(36).substring(2, 7).toUpperCase();
         var stamp  = Date.now().toString(36).slice(-4).toUpperCase();
-
         return "BL-" + cleanName + "-" + stamp + random;
     }
 
@@ -350,6 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "Reception: 7620 Balfour Rd, Brentwood, CA 94513",
             "Dinner: 4:30 - 7:30 PM",
             "Bar: 6:30 - 10:30 PM",
+            "Music: 4:30 - 11:00 PM",
             "End: 11:00 PM",
             "------------------------------"
         ].join("\n");
@@ -358,9 +364,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderQR(text) {
         if (!qrContainer) return;
-
         qrContainer.innerHTML = "";
-
         try {
             if (typeof qrcode !== "undefined") {
                 var qr = qrcode(0, "M");
@@ -372,11 +376,9 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (err) {
             console.warn("Error al generar QR:", err);
         }
-
         qrContainer.innerHTML =
             '<div style="font-size:10px;text-align:center;color:#5f6b52;padding:8px;">' +
-            'Folio: <strong>' + text.split("\n")[2] + '</strong>' +
-            '</div>';
+            'Folio: <strong>' + text.split("\n")[2] + '</strong></div>';
     }
 
 
@@ -390,17 +392,14 @@ document.addEventListener("DOMContentLoaded", function () {
         form.hidden = true;
         ticket.hidden = false;
 
-        setTimeout(function () {
-            renderQR(buildQRPayload(data));
-        }, 50);
-
+        setTimeout(function () { renderQR(buildQRPayload(data)); }, 50);
         setTimeout(function () {
             ticket.scrollIntoView({ behavior: "smooth", block: "center" });
         }, 100);
     }
 
 
-    form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", async function (e) {
         e.preventDefault();
         clearError();
 
@@ -412,12 +411,10 @@ document.addEventListener("DOMContentLoaded", function () {
             nameInput.focus();
             return;
         }
-
         if (isNaN(count) || count < 1) {
             showError(t.errCount);
             return;
         }
-
         if (count > 10) {
             showError(t.errMax);
             return;
@@ -429,15 +426,43 @@ document.addEventListener("DOMContentLoaded", function () {
             name: name,
             count: count,
             code: code,
-            lang: currentLang,
-            createdAt: new Date().toISOString()
+            lang: currentLang
         };
 
-        try {
-            localStorage.setItem("bl_rsvp", JSON.stringify(data));
-        } catch (err) {}
+        // Deshabilitar botón mientras guarda
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            var submitLabel = submitBtn.querySelector("[data-i18n]");
+            if (submitLabel) submitLabel.textContent = t.formSubmitting;
+        }
 
-        showTicket(data);
+        try {
+            // Guardar en Firestore
+            await addDoc(rsvpCollection, {
+                name: data.name,
+                count: data.count,
+                code: data.code,
+                lang: data.lang,
+                createdAt: serverTimestamp()
+            });
+
+            // Guardar también en localStorage para restaurar el pase
+            try {
+                localStorage.setItem("bl_rsvp", JSON.stringify(data));
+            } catch (err) {}
+
+            showTicket(data);
+
+        } catch (err) {
+            console.error("Error al guardar en Firestore:", err);
+            showError(t.errSave);
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                var submitLabel2 = submitBtn.querySelector("[data-i18n]");
+                if (submitLabel2) submitLabel2.textContent = t.formSubmit;
+            }
+        }
     });
 
 
@@ -466,7 +491,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             ctx.fillStyle = "#f6f4ee";
             ctx.fillRect(0, 0, W, H);
-
             ctx.strokeStyle = "#5f6b52";
             ctx.lineWidth = 1;
             ctx.strokeRect(30, 30, W - 60, H - 60);
@@ -511,7 +535,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 ctx.lineWidth = 1;
                 ctx.stroke();
                 ctx.setLineDash([]);
-
                 y += 55;
             }
 
@@ -522,7 +545,6 @@ document.addEventListener("DOMContentLoaded", function () {
             row("Ref", code);
 
             var qrNode = qrContainer ? qrContainer.querySelector("img, canvas, svg") : null;
-
             if (qrNode) {
                 var qrSize = 240;
                 var qx = (W - qrSize) / 2;
@@ -530,14 +552,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 ctx.fillStyle = "#ffffff";
                 ctx.fillRect(qx - 10, qy - 10, qrSize + 20, qrSize + 20);
-
                 ctx.strokeStyle = "rgba(95,107,82,.3)";
                 ctx.lineWidth = 1;
                 ctx.strokeRect(qx - 10, qy - 10, qrSize + 20, qrSize + 20);
 
-                try {
-                    ctx.drawImage(qrNode, qx, qy, qrSize, qrSize);
-                } catch (err) {}
+                try { ctx.drawImage(qrNode, qx, qy, qrSize, qrSize); } catch (err) {}
             }
 
             var link = document.createElement("a");
@@ -548,6 +567,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    /* Restaurar RSVP previo */
     try {
         var saved = localStorage.getItem("bl_rsvp");
         if (saved) {
@@ -555,11 +575,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (data && data.name && data.code) {
                 if (nameInput) nameInput.value = data.name;
                 if (countInput) countInput.value = data.count;
-
                 if (data.lang && (data.lang === "es" || data.lang === "en")) {
                     applyLanguage(data.lang);
                 }
-
                 showTicket(data);
             }
         }
