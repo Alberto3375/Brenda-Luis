@@ -121,12 +121,10 @@ function escapeHtml(str) {
         .replace(/"/g, "&quot;");
 }
 
-/* Convierte cualquier formato de fecha en string legible */
 function formatDate(ts) {
     if (!ts) return "—";
 
     let date;
-
     try {
         if (typeof ts.toDate === "function") {
             date = ts.toDate();
@@ -154,7 +152,6 @@ function formatDate(ts) {
     return `${day}/${month}/${year} · ${hh}:${mm}`;
 }
 
-/* Devuelve timestamp en milisegundos para ordenar */
 function getTimestamp(ts) {
     if (!ts) return 0;
     try {
@@ -179,7 +176,6 @@ function renderTable(guests) {
 
     if (!tbody) return;
 
-    /* Estadísticas globales (sobre TODOS los invitados, no filtrados) */
     const totalInvitations = allGuests.length;
     const totalPeople = allGuests.reduce(function (sum, g) {
         return sum + (Number(g.count) || 0);
@@ -188,7 +184,6 @@ function renderTable(guests) {
     if (statInvitations) statInvitations.textContent = totalInvitations;
     if (statPeople) statPeople.textContent = totalPeople;
 
-    /* Sin datos aún */
     if (allGuests.length === 0) {
         tbody.innerHTML =
             '<tr><td colspan="4" class="empty">' +
@@ -200,7 +195,6 @@ function renderTable(guests) {
 
     if (emptyNote) emptyNote.hidden = true;
 
-    /* Filtro de búsqueda */
     const searchInput = document.getElementById("searchInput");
     const search = (searchInput?.value || "").trim().toLowerCase();
 
@@ -219,12 +213,10 @@ function renderTable(guests) {
         return;
     }
 
-    /* Ordenar por fecha descendente (más recientes primero) */
     filtered.sort(function (a, b) {
         return getTimestamp(b.createdAt) - getTimestamp(a.createdAt);
     });
 
-    /* Renderizar filas */
     tbody.innerHTML = filtered.map(function (g) {
         const count = Number(g.count) || 0;
         const countLabel = (count === 1)
@@ -245,25 +237,18 @@ function renderTable(guests) {
 
 /* =====================================================
    CARGAR DATOS DESDE FIRESTORE
-   ⚠️ SIN orderBy → trae TODOS los documentos
 ===================================================== */
 
 const statusEl = document.getElementById("statStatus");
 if (statusEl) statusEl.textContent = t.loading;
 
-
-/* 1) Intento principal: onSnapshot en tiempo real */
-let unsubscribe = null;
-
 try {
-    unsubscribe = onSnapshot(
+    onSnapshot(
         rsvpCollection,
         function (snapshot) {
             allGuests = [];
-
             snapshot.forEach(function (doc) {
                 const d = doc.data() || {};
-
                 allGuests.push({
                     id: doc.id,
                     name: d.name || "",
@@ -281,7 +266,6 @@ try {
             console.error("Firestore onSnapshot error:", error);
             if (statusEl) statusEl.textContent = t.offline;
 
-            /* Fallback: intentar getDocs una sola vez */
             getDocs(rsvpCollection)
                 .then(function (snapshot) {
                     allGuests = [];
@@ -314,7 +298,6 @@ try {
 } catch (err) {
     console.error("Error inicializando onSnapshot:", err);
 
-    /* Fallback directo */
     getDocs(rsvpCollection)
         .then(function (snapshot) {
             allGuests = [];
@@ -352,32 +335,21 @@ document.getElementById("searchInput")?.addEventListener("input", function () {
    BOTONES
 ===================================================== */
 
-/* Idioma */
 document.getElementById("langButton")?.addEventListener("click", function () {
     applyLanguage(currentLang === "es" ? "en" : "es");
 });
 
-
-/* Exportar CSV */
 document.getElementById("exportBtn")?.addEventListener("click", function () {
     if (allGuests.length === 0) return;
 
-    /* Ordenar por fecha descendente antes de exportar */
     const sorted = allGuests.slice().sort(function (a, b) {
         return getTimestamp(b.createdAt) - getTimestamp(a.createdAt);
     });
 
-    const rows = [
-        ["Nombre", "Personas", "Folio", "Fecha"]
-    ];
+    const rows = [["Nombre", "Personas", "Folio", "Fecha"]];
 
     sorted.forEach(function (g) {
-        rows.push([
-            g.name,
-            g.count,
-            g.code,
-            formatDate(g.createdAt)
-        ]);
+        rows.push([g.name, g.count, g.code, formatDate(g.createdAt)]);
     });
 
     const csv = rows.map(function (r) {
@@ -396,8 +368,6 @@ document.getElementById("exportBtn")?.addEventListener("click", function () {
     URL.revokeObjectURL(url);
 });
 
-
-/* Imprimir */
 document.getElementById("printBtn")?.addEventListener("click", function () {
     window.print();
 });
